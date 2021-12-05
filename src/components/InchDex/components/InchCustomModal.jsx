@@ -1,41 +1,23 @@
-import { Input } from "antd";
-import { filter, includes, toLower } from "ramda";
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { pipe, values, filter } from "ramda";
 
-const { Search } = Input;
-
-function InchModal({ open, onClose, setToken, tokenList }) {
-  const [searhKeys, setSearchKeys] = useState("");
-  const [endtokens, setEndtokens] = useState(tokenList);
-
-  const filterTokens = (query, list) =>
-    filter((token) => includes(toLower(query), toLower(token.name)), list);
-
-  useEffect(() => {
-    if (searhKeys) {
-      setEndtokens(filterTokens(searhKeys, endtokens));
-    } else {
-      setEndtokens(tokenList);
-    }
-  }, [searhKeys]);
-
+function InchCustomModal({ open, onClose, setToken, fromToken, tokenList }) {
   if (!open) return null;
 
+  const acceptableTokens = pipe(
+    values,
+    filter((token) =>
+      token.symbol === fromToken.symbol
+        ? false
+        : token.symbol === "ETH" || token.symbol === "WBTC"
+    )
+  );
+
   return (
-    <div style={{ overflow: "auto", height: "500px" }}>
-      <div
-        style={{
-          margin: "10px",
-        }}
-      >
-        <Search
-          placeholder="Enter Token Name"
-          onChange={(e) => setSearchKeys(e.target.value)}
-        />
-      </div>
+    <div style={{ overflow: "auto", height: "auto" }}>
       {!tokenList
         ? null
-        : endtokens.map((token, index) => (
+        : acceptableTokens(tokenList).map((token, index) => (
             <div
               style={{
                 padding: "5px 20px",
@@ -76,4 +58,4 @@ function InchModal({ open, onClose, setToken, tokenList }) {
   );
 }
 
-export default InchModal;
+export default InchCustomModal;

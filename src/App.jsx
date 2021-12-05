@@ -1,6 +1,11 @@
 import { useEffect } from "react";
 import { useMoralis } from "react-moralis";
-import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import Account from "components/Account";
 import Chains from "components/Chains";
 import TokenPrice from "components/TokenPrice";
@@ -13,7 +18,6 @@ import { Layout, Tabs, Skeleton } from "antd";
 import "antd/dist/antd.css";
 import NativeBalance from "components/NativeBalance";
 import "./style.css";
-import QuickStart from "components/QuickStart";
 import Contract from "components/Contract/Contract";
 import Text from "antd/lib/typography/Text";
 import Ramper from "components/Ramper";
@@ -51,7 +55,8 @@ const styles = {
   },
 };
 const App = ({ isServerInfo }) => {
-  const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } = useMoralis();
+  const { isWeb3Enabled, enableWeb3, isAuthenticated, isWeb3EnableLoading } =
+    useMoralis();
 
   useEffect(() => {
     if (isAuthenticated && !isWeb3Enabled && !isWeb3EnableLoading) enableWeb3();
@@ -62,16 +67,9 @@ const App = ({ isServerInfo }) => {
     <Layout style={{ height: "100vh", overflow: "auto" }}>
       <Router>
         <Header style={styles.header}>
-          <Logo />
           <MenuItems />
           <div style={styles.headerRight}>
             <Chains />
-            <TokenPrice
-              address="0x1f9840a85d5af5bf1d1762f925bdaddc4201f984"
-              chain="eth"
-              image="https://cloudflare-ipfs.com/ipfs/QmXttGpZrECX5qCyXbBQiqgQNytVGeZW5Anewvh2jc4psg/"
-              size="40px"
-            />
             <NativeBalance />
             <Account />
           </div>
@@ -79,13 +77,7 @@ const App = ({ isServerInfo }) => {
 
         <div style={styles.content}>
           <Switch>
-            <Route path="/quickstart">
-              <QuickStart isServerInfo={isServerInfo} />
-            </Route>
-            <Route path="/wallet">
-              <Wallet />
-            </Route>
-            <Route path="/1inch">
+            <Route path="/">
               <Tabs defaultActiveKey="1" style={{ alignItems: "center" }}>
                 <Tabs.TabPane tab={<span>Ethereum</span>} key="1">
                   <InchDex chain="eth" />
@@ -98,72 +90,22 @@ const App = ({ isServerInfo }) => {
                 </Tabs.TabPane>
               </Tabs>
             </Route>
-            <Route path="/erc20balance">
-              <ERC20Balance />
-            </Route>
-            <Route path="/onramp">
-              <Ramper />
-            </Route>
-            <Route path="/erc20transfers">
-              <ERC20Transfers />
-            </Route>
-            <Route path="/nftBalance">
-              <NFTBalance />
-            </Route>
-            <Route path="/contract">
-              <Contract />
-            </Route>
-            <Route exact path="/">
-              <Redirect to="/quickstart" />
-            </Route>
-            <Route path="/nonauthenticated">
-              <>Please login using the "Authenticate" button</>
-            </Route>
           </Switch>
         </div>
       </Router>
-      <Footer style={{ textAlign: "center" }}>
-        <Text style={{ display: "block" }}>
-          ⭐️ Please star this{" "}
-          <a
-            href="https://github.com/ethereum-boilerplate/ethereum-boilerplate/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            boilerplate
-          </a>
-          , every star makes us very happy!
-        </Text>
-
-        <Text style={{ display: "block" }}>
-          🙋 You have questions? Ask them on the {""}
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://forum.moralis.io/t/ethereum-boilerplate-questions/3951/29"
-          >
-            Moralis forum
-          </a>
-        </Text>
-
-        <Text style={{ display: "block" }}>
-          📖 Read more about{" "}
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href="https://moralis.io?utm_source=boilerplatehosted&utm_medium=todo&utm_campaign=ethereum-boilerplat"
-          >
-            Moralis
-          </a>
-        </Text>
-      </Footer>
     </Layout>
   );
 };
 
 export const Logo = () => (
   <div style={{ display: "flex" }}>
-    <svg width="60" height="38" viewBox="0 0 50 38" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg
+      width="60"
+      height="38"
+      viewBox="0 0 50 38"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
       <path
         d="M43.6871 32.3986C43.5973 32.4884 43.53 32.5782 43.4402 32.6905C43.53 32.6007 43.5973 32.5109 43.6871 32.3986Z"
         fill="black"
